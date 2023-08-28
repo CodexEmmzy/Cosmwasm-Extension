@@ -1,0 +1,20 @@
+{
+  "name": "cosmwasm-snippets",
+  "displayName": "Cosmwasm Snippets",
+  "description": "This an extension that contains the most frequently used code snippet in cosmwasm",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "rust",
+        "path": "./snippets/snippets.code-snippets"
+      }
+    ]
+  }
+}

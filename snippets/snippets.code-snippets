@@ -1,0 +1,301 @@
+{
+  "Instantiate": {
+    "prefix": ["instantiate"],
+    "body": [
+      "#[cfg_attr(not(feature = \"library\"), entry_point)]",
+      "pub fn instantiate(",
+      "    deps: DepsMut,",
+      "    _env: Env,",
+      "    _info: MessageInfo,",
+      "    _msg: ${1:InstantiateMsg},",
+      ") -> Result<Response, ${2:ContractError}> {",
+      "    $0 ;",
+      "    let mut res = Response::new();",
+      "    Ok(res)",
+      "}"
+    ],
+
+    "description": "A Snippet that provides an Instantaite entry point in Cosmwasm"
+  },
+
+  "Query": {
+    "prefix": "query",
+    "body": [
+      "pub fn query(deps: Deps, _env: Env, msg: ${1:QuearyMsg}) -> StdResult<Binary> {",
+      "    use ${1:QuearyMsg}::*;",
+      "",
+      "    match msg {",
+      "        $0",
+      "    }",
+      "    ",
+      "}"
+    ],
+    "description": "A Snippet that provides an Query entry point in Cosmwasm"
+  },
+  "Execute": {
+    "prefix": "execute",
+    "body": [
+      "pub fn execute(",
+      "    deps: DepsMut,",
+      "    _env: Env,",
+      "    info: MessageInfo,",
+      "    msg: ${1:ExecuteMsg},",
+      ") -> Result<Response, ${2:ContractError}> {",
+      "    use ${1:ExecuteMsg}::*;",
+      "",
+      "    match msg {",
+      "        $0",
+      "    }",
+      "}",
+      ""
+    ],
+    "description": "A Snippet that provides an Execute  entry point in Cosmwasm"
+  },
+  "Handle Message": {
+    "prefix": ["handle"],
+    "body": [
+      "#[cfg_attr(not(feature = \"library\"), entry_point)]",
+      "pub fn handle(",
+      "    deps: DepsMut,",
+      "    _env: Env,",
+      "    _info: MessageInfo,",
+      "    _msg: ${1:HandleMsg},",
+      ") -> Result<Response, ${2:ContractError}> {",
+      "    $3 ;",
+      "    let mut res = Response::new();",
+      "    Ok(res)",
+      "}"
+    ],
+    "description": "A Snippet that provides a Handle Message entry point in Cosmwasm"
+  },
+  "Store Data": {
+    "prefix": ["store_data"],
+    "body": [
+      "pub fn store_data(deps: DepsMut, _env: Env, _info: MessageInfo, data: Vec<u8>) -> StdResult<()> {",
+      "    deps.storage.set(b\"data\", &data);",
+      "    Ok(())",
+      "}"
+    ],
+    "description": "A Snippet that stores data in Cosmwasm contract storage"
+  },
+  "Read Data": {
+    "prefix": ["read_data"],
+    "body": [
+      "pub fn read_data(deps: Deps, _env: Env) -> QueryResult<Vec<u8>> {",
+      "    let data = deps.storage.get(b\"data\");",
+      "    Ok(data.unwrap_or_default())",
+      "}"
+    ],
+    "description": "A Snippet that reads data from Cosmwasm contract storage"
+  },
+  "Emit Event": {
+    "prefix": ["emit_event"],
+    "body": [
+      "pub fn emit_event(deps: DepsMut, _env: Env, _info: MessageInfo, event_type: &str, attributes: Vec<(String, String)>) -> StdResult<Response> {",
+      "    let response = Response::new().add_attributes(attributes);",
+      "    deps.events.push(event_type.into(), response.attributes);",
+      "    Ok(response)",
+      "}"
+    ],
+    "description": "A Snippet that emits an event in a Cosmwasm contract"
+  },
+  "Send Tokens": {
+    "prefix": ["send_tokens"],
+    "body": [
+      "pub fn send_tokens(deps: DepsMut, _env: Env, info: MessageInfo, recipient: Addr, amount: Coin) -> StdResult<Response> {",
+      "    let transfer_msg = BankMsg::Send {",
+      "        to_address: recipient.to_string(),",
+      "        amount: vec![amount],",
+      "    };",
+      "    Ok(Response::new().add_message(transfer_msg))",
+      "}"
+    ],
+    "description": "A Snippet that sends tokens in a Cosmwasm contract"
+  },
+
+  "Condition Check": {
+    "prefix": ["perform_condition_check"],
+    "body": [
+      "pub fn perform_condition_check(deps: Deps, env: Env, _info: MessageInfo) -> StdResult<()> {",
+      "    if env.block.time.seconds() > ${1:timestamp} {",
+      "        Ok(())",
+      "    } else {",
+      "        Err(StdError::GenericErr {",
+      "            msg: \"Condition not met\".to_string(),",
+      "        })",
+      "    }",
+      "}"
+    ],
+    "description": "A Snippet that performs a conditional check in a Cosmwasm contract"
+  },
+
+  "Query Balance": {
+    "prefix": ["query_balance"],
+    "body": [
+      "pub fn query_balance(deps: Deps, _env: Env, address: Addr, denom: &str) -> QueryResult<Coin> {",
+      "    let query = BankQuery::Balance {",
+      "        address: address.to_string(),",
+      "        denom: denom.to_string(),",
+      "    };",
+      "    deps.querier.query(&QueryRequest::BankQuery(query))",
+      "}"
+    ],
+    "description": "A Snippet that queries an account balance in a Cosmwasm contract"
+  },
+
+  "Custom Error": {
+    "prefix": ["custom_error_example"],
+    "body": [
+      "pub fn custom_error_example(deps: Deps, _env: Env, _info: MessageInfo) -> StdResult<()> {",
+      "    if ${1:some_condition} {",
+      "        Err(StdError::Unauthorized { backtrace: None })",
+      "    } else {",
+      "        Ok(())",
+      "    }",
+      "}"
+    ],
+    "description": "A Snippet that demonstrates custom error handling in a Cosmwasm contract"
+  },
+  "Simple Storage": {
+    "prefix": ["simple_storage"],
+    "body": [
+      "#[cfg_attr(not(feature = \"library\"), entry_point)]",
+      "pub fn instantiate(",
+      "    deps: DepsMut,",
+      "    _env: Env,",
+      "    _info: MessageInfo,",
+      "    _msg: ${1:InstantiateMsg},",
+      ") -> Result<Response, ${2:ContractError}> {",
+      "    let data = b\"Hello, CosmWasm!\";",
+      "    deps.storage.set(b\"data\", data);",
+      "    let res = Response::new();",
+      "    Ok(res)",
+      "}"
+    ],
+    "description": "A simple Instantiate entry point that stores data in Cosmwasm contract storage"
+  },
+  "Transfer Tokens": {
+    "prefix": ["transfer_tokens"],
+    "body": [
+      "pub fn transfer_tokens(deps: DepsMut, _env: Env, _info: MessageInfo, recipient: Addr, amount: Uint128) -> StdResult<Response> {",
+      "    let msg = BankMsg::Send {",
+      "        to_address: recipient.to_string(),",
+      "        amount: coins(amount.u128(), \"uatom\"),",
+      "    };",
+      "    Ok(Response::new().add_message(msg))",
+      "}"
+    ],
+    "description": "A simple entry point that transfers tokens to a recipient in a Cosmwasm contract"
+  },
+  "Increment Counter": {
+    "prefix": ["increment_counter"],
+    "body": [
+      "pub fn increment_counter(deps: DepsMut, _env: Env, _info: MessageInfo) -> StdResult<Response> {",
+      "    let mut counter = storage::Uint128::from(0);",
+      "    counter += Uint128(1);",
+      "    deps.storage.set(COUNTER_KEY, &counter);",
+      "    Ok(Response::new())",
+      "}"
+    ],
+    "description": "A simple entry point that increments a counter in a Cosmwasm contract"
+  },
+
+  "Test Instantiate": {
+    "prefix": ["test_instantiate"],
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};",
+      "    use crate::{instantiate, ContractMsg, ContractResponse};",
+      "",
+      "    #[test]",
+      "    fn test_instantiate() {",
+      "        let mut deps = mock_dependencies(&[]);",
+      "        let env = mock_env();",
+      "        let info = mock_info(\"creator\", &[]);",
+      "        let msg = InstantiateMsg { /* Initialize your msg */ };",
+      "        let res = instantiate(deps.as_mut(), env, info, msg).unwrap();",
+      "        assert_eq!(0, res.messages.len());",
+      "        assert_eq!(0, res.attributes.len());",
+      "    }",
+      "}"
+    ],
+    "description": "A test case for the Instantiate entry point in a Cosmwasm contract"
+  },
+
+  "Test Handle Message": {
+    "prefix": ["test_handle"],
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};",
+      "    use crate::{handle, ContractMsg, ContractResponse};",
+      "",
+      "    #[test]",
+      "    fn test_handle_message() {",
+      "        let mut deps = mock_dependencies(&[]);",
+      "        let env = mock_env();",
+      "        let info = mock_info(\"sender\", &[]);",
+      "        let msg = HandleMsg::Example { /* Initialize your msg */ };",
+      "        let res = handle(deps.as_mut(), env, info, msg).unwrap();",
+      "        assert_eq!(0, res.messages.len());",
+      "        assert_eq!(0, res.attributes.len());",
+      "    }",
+      "}"
+    ],
+    "description": "A test case for the Handle Message entry point in a Cosmwasm contract"
+  },
+
+  "Test Query": {
+    "prefix": ["test_query"],
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};",
+      "    use crate::{query, ContractMsg, ContractResponse};",
+      "",
+      "    #[test]",
+      "    fn test_query() {",
+      "        let mut deps = mock_dependencies(&[]);",
+      "        let env = mock_env();",
+      "        let info = mock_info(\"querier\", &[]);",
+      "        let msg = QueryMsg::Example { /* Initialize your msg */ };",
+      "        let res = query(deps.as_ref(), env, msg).unwrap();",
+      "        /* Add assertions based on your query response */",
+      "    }",
+      "}"
+    ],
+    "description": "A test case for the Query entry point in a Cosmwasm contract"
+  },
+
+  "Test Storage and State": {
+    "prefix": ["test_storage_state"],
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};",
+      "    use crate::{handle, ContractMsg, ContractResponse};",
+      "    use cosmwasm_std::{Binary, from_slice, to_vec};",
+      "",
+      "    #[test]",
+      "    fn test_storage_and_state_changes() {",
+      "        let mut deps = mock_dependencies(&[]);",
+      "        let env = mock_env();",
+      "        let info = mock_info(\"sender\", &[]);",
+      "        let msg = HandleMsg::SetValue { value: 42 };",
+      "        let res = handle(deps.as_mut(), env, info, msg).unwrap();",
+      "",
+      "        // Check if storage value is updated",
+      "        let stored_data = deps.storage.get(b\"data\");",
+      "        let stored_value: u64 = from_slice(&stored_data.unwrap()).unwrap();",
+      "        assert_eq!(42, stored_value);",
+      "",
+      "        // Check if the response is as expected",
+      "        let expected_response = ContractResponse::SetValueResponse { /* Initialize expected response fields */ };",
+      "        assert_eq!(expected_response, res);",
+      "    }",
+      "}"
+    ],
+    "description": "A test case for checking storage and state changes in a Cosmwasm contract"
+  }
+}
